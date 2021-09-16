@@ -23,6 +23,7 @@ public class GameActivity extends AppCompatActivity {
     EditText answer;
     Button btnOk,btnNextQuestion;
     Random random = new Random();
+    String gameType;
     int number1,number2,userAnswer,realAnswer;
     int userScore = 0;
     int userLife = 3;
@@ -42,7 +43,10 @@ public class GameActivity extends AppCompatActivity {
         btnOk = findViewById(R.id.btnOK);
         btnNextQuestion = findViewById(R.id.btnNextQuestion);
         answer = findViewById(R.id.editTextAnswer);
+        Intent intent = getIntent();
+        gameType = intent.getStringExtra("GameType");
         gameContinue();
+
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,9 +84,21 @@ public class GameActivity extends AppCompatActivity {
     public void gameContinue(){
         number1 = random.nextInt(100);
         number2 = random.nextInt(100);
-        tvQuestion.setText(number1 + " " + number2);
-        realAnswer = number1 + number2;
-        startTimer();
+
+        if(gameType.equals("addition")){
+            tvQuestion.setText(number1 + " + " + number2);
+            realAnswer = number1 + number2;
+            startTimer();
+        }else if(gameType.equals("subtraction")){
+            tvQuestion.setText(number1 + " - " + number2);
+            realAnswer = number1 * number2;
+            startTimer();
+        }else if (gameType.equals("multiply")){
+            tvQuestion.setText(number1 + " * " + number2);
+            realAnswer = number1 / number2;
+            startTimer();
+        }
+
     }
 
     public void startTimer(){
